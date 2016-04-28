@@ -16,7 +16,13 @@ class VisitantesController < ApplicationController
   def new
     Rails.logger.debug "DEBUG: entrando al método new"
     @visitante = Visitante.new
+    # carga los datos del formulario
     Rails.logger.debug "DEBUG: Nombre del usuario"+@visitante.nombre
+    flash[:notice]='Bienvenido!'
+    flash[:alert]='Mi cumpleaños está cerca'
+    flash[:warnning]='CIUDADO PELIGRO.'
+    flash[:success]= 'EXITO!'
+  
   end
 
   # GET /visitantes/1/edit
@@ -26,13 +32,19 @@ class VisitantesController < ApplicationController
   # POST /visitantes
   # POST /visitantes.json
   def create
+    # guarda todos los campos del formulario en una instancia del modelo @visitante
     @visitante = Visitante.new(visitante_params)
 
     respond_to do |format|
+      # el modelo es el que hace las validaciones
+      # si las validaciones del modelo pasan y guarda los datos en la tabla
       if @visitante.save
+        # redirect_to llama a la vista show (sus datos fueron guardados exitosamente)
+        # notice un mensaje que va a cargar en la pagina
         format.html { redirect_to @visitante, notice: 'Visitante was successfully created.' }
         format.json { render :show, status: :created, location: @visitante }
       else
+        # si hay error en los campos carga de nuevo el formulario
         format.html { render :new }
         format.json { render json: @visitante.errors, status: :unprocessable_entity }
       end
