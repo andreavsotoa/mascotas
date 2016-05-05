@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :visitantes
+  resources :contactos, only:  [:new,:create]
   #get '/visitantes/:id', to: 'visitantes#view', as: 'visitante'
 
   #resources :articulos
